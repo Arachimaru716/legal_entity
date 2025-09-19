@@ -1,0 +1,17 @@
+.env
+.env.*
+.vscode/
+.DS_Store
+
+# build artifacts
+/cmd/web/web
+/cmd/web/__debug_*
+
+# build artifacts
+/cmd/web/web
+/cmd/web/__debug_*
+
+# build artifacts
+/cmd/web/web
+/cmd/web/__debug_*
+<SECRET_FILE>
