@@ -22,6 +22,7 @@ import (
 	"github.com/krisch/crm-backend/internal/health"
 	"github.com/krisch/crm-backend/internal/helpers"
 	"github.com/krisch/crm-backend/internal/jwt"
+	"github.com/krisch/crm-backend/internal/legal_entities"
 	"github.com/krisch/crm-backend/internal/logs"
 	"github.com/krisch/crm-backend/internal/notifications"
 	"github.com/krisch/crm-backend/internal/permissions"
@@ -91,7 +92,9 @@ func InitApp(name string, creds postgres.Creds, metrics bool, rc redis.Creds) (*
 	agentsService := agents.New(agentsRepository)
 	permissionsRepository := permissions.NewRepository(gdb, rds)
 	permissionsService := permissions.New(permissionsRepository)
-	app := NewApp(name, configsConfigs, gdb, rds, service, notificationsService, iLogService, profileService, iEmailsService, federationService, taskService, commentsService, dictionaryService, s3Service, servicePrivate, gatesService, cacheService, metricsCounters, remindersService, catalogsService, aggregatesService, companyService, smsService, agentsService, permissionsService)
+	legalentitiesRepository := legalentities.NewRepository(gdb, metricsCounters)
+	legalentitiesService := legalentities.New(legalentitiesRepository)
+	app := NewApp(name, configsConfigs, gdb, rds, service, notificationsService, iLogService, profileService, iEmailsService, federationService, taskService, commentsService, dictionaryService, s3Service, servicePrivate, gatesService, cacheService, metricsCounters, remindersService, catalogsService, aggregatesService, companyService, smsService, agentsService, permissionsService, legalentitiesService)
 	return app, nil
 }
 
@@ -148,6 +151,7 @@ func NewApp(name string, conf *configs.Configs, gdb *postgres.GDB, rds *redis.RD
 	smsService *sms.Service,
 	agentsService *agents.Service,
 	permissionsService *permissions.Service,
+	legalEntitiesService *legalentities.Service,
 ) *App {
 	w := &App{
 		Env:  conf.ENV,
@@ -190,6 +194,7 @@ func NewApp(name string, conf *configs.Configs, gdb *postgres.GDB, rds *redis.RD
 	w.SMSService = smsService
 	w.AgentsService = agentsService
 	w.PermissionsService = permissionsService
+	w.LegalEntitiesService = legalEntitiesService
 
 	return w
 }

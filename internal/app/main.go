@@ -20,6 +20,7 @@ import (
 	"github.com/krisch/crm-backend/internal/health"
 	"github.com/krisch/crm-backend/internal/helpers"
 	"github.com/krisch/crm-backend/internal/jwt"
+	legalentities "github.com/krisch/crm-backend/internal/legal_entities"
 	"github.com/krisch/crm-backend/internal/logs"
 	"github.com/krisch/crm-backend/internal/notifications"
 	"github.com/krisch/crm-backend/internal/permissions"
@@ -61,8 +62,8 @@ type App struct {
 	JWT                  jwt.IJWT
 	AgentsService        *agents.Service
 	PermissionsService   *permissions.Service
-
-	MetricsCounters *helpers.MetricsCounters
+	LegalEntitiesService *legalentities.Service
+	MetricsCounters      *helpers.MetricsCounters
 }
 
 func (a *App) SyncDictionariesByTimeout() {

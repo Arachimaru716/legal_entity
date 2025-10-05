@@ -725,6 +725,66 @@ paths:
         200:
           description: Ok
 
+  /legal_entity:
+    get:
+      description: Get legal entities
+      tags: [federation]
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [count, items]
+                properties:
+                  count:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/LegalEntityDTO"
+
+    post:
+      description: Create legal entity
+      tags: [federation]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NameRequiredRequest"
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UUIDResponse"
+
+  /legal_entity/{UUID}:
+    delete:
+      description: Delete legal entity
+      tags: [federation]
+      parameters:
+        - $ref: "#/components/parameters/uuid"
+      responses:
+        200:
+          description: Ok
+
+  /legal_entity/{UUID}/name:
+    patch:
+      description: Change legal entity name
+      tags: [federation]
+      parameters:
+        - $ref: "#/components/parameters/uuid"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NameRequiredRequest"
+      responses:
+        200:
+          description: Ok
   /company:
     post:
       description: "
@@ -4455,6 +4515,29 @@ components:
           type: string
         created_at:
           type: string
+
+    LegalEntityDTO:
+      x-go-type: dto.LegalEntityDTO
+      x-go-type-import:
+        name: LegalEntityDTO
+        path: github.com/krisch/crm-backend/dto
+      type: object
+      required: [uuid, name, created_at]
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
 
     SmsDTO:
       x-go-type: dto.SmsDTO
