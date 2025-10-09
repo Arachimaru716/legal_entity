@@ -17,8 +17,10 @@ func (a *Web) GetLegalEntity(ctx context.Context, _ oapi.GetLegalEntityRequestOb
 	itemsDTO := make([]dto.LegalEntityDTO, 0, len(items))
 	for _, it := range items {
 		itemsDTO = append(itemsDTO, dto.LegalEntityDTO{
-			UUID: it.UUID,
-			Name: it.Name,
+			UUID:      it.UUID,
+			Name:      it.Name,
+			CreatedAt: it.CreatedAt,
+			UpdatedAt: it.UpdatedAt,
 		})
 	}
 
